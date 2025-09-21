@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Satz - Série</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/filme.css">
+    <meta name="description" content="Assista séries incríveis no @Satz Streaming">
+</head>
+<body>
+    <!-- Header -->
+    <header class="v3ss3l-header" role="banner">
+        <nav class="header-nav" aria-label="Navegação principal">
+            <div class="header-brand">
+                <a href="/" class="brand-link">
+                    <svg style="width: 20px; height: 20px; color: #ffffff;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="currentColor"/>
+                    </svg>
+                    <span class="brand-text">Satz</span>
+                </a>
+            </div>
+
+            <div class="header-actions">
+                <a href="/" class="back-button" aria-label="Voltar para página inicial">
+                    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                        <path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                    </svg>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Serie Banner -->
+    <section class="movie-banner" id="serieBanner" role="img" aria-labelledby="serieTitle">
+        <div class="banner-overlay" aria-hidden="true"></div>
+        <div class="banner-content">
+            <div class="movie-header">
+                <h1 class="movie-title" id="serieTitle">Carregando...</h1>
+                <div class="movie-meta">
+                    <span class="movie-year" id="serieYear" aria-label="Ano de lançamento"></span>
+                    <span class="movie-rating" id="serieRating" aria-label="Avaliação"></span>
+                    <span class="movie-genre" id="serieGenre" aria-label="Gêneros"></span>
+                </div>
+                <p class="movie-synopsis" id="serieSynopsis">Carregando sinopse...</p>
+                <div class="action-buttons">
+                    <button class="play-button" aria-label="Assistir série">
+                        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                            <path fill="currentColor" d="M8 5v14l11-7z"/>
+                        </svg>
+                        <span>Assistir</span>
+                    </button>
+                    <button class="info-button" onclick="scrollToDetails()" aria-label="Mais informações">
+                        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+                            <path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                        </svg>
+                        <span>Mais Info</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Serie Details -->
+    <section class="movie-details" id="serieDetailsSection" aria-labelledby="details-title">
+        <div class="container">
+            <h2 id="details-title" class="section-title">Detalhes da Série</h2>
+
+            <div class="details-grid">
+                <div class="details-main">
+                    <div class="synopsis-section">
+                        <h3>Sinopse</h3>
+                        <p id="serieDetailedSynopsis">Carregando descrição detalhada...</p>
+                    </div>
+
+                    <div class="movie-info">
+                        <div class="info-item">
+                            <strong>Número de Temporadas:</strong>
+                            <span id="serieSeasons">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Total de Episódios:</strong>
+                            <span id="serieEpisodes">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Status:</strong>
+                            <span id="serieStatus">-</span>
+                        </div>
+                        <div class="info-item">
+                            <strong>Idioma Original:</strong>
+                            <span id="serieLanguage">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="details-sidebar">
+                    <div class="cast-section">
+                        <h3>Elenco Principal</h3>
+                        <div class="cast-grid" id="castGrid" role="list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="video-section" aria-labelledby="video-title">
+        <div class="container">
+            <h2 id="video-title" class="section-title">Trailer</h2>
+            <div class="video-container">
+                <iframe 
+                    id="videoPlayer" 
+                    frameborder="0" 
+                    allowfullscreen
+                    title="Trailer da série"
+                    loading="lazy"
+                ></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Episode Modal -->
+    <div class="stream-modal" id="episodeModal" role="dialog" aria-modal="true" aria-labelledby="episode-title">
+        <div class="modal-backdrop" aria-hidden="true"></div>
+        <div class="stream-container">
+            <button id="closeEpisodes" class="close-button" aria-label="Fechar seletor de episódios">
+                <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                    <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+
+            <div class="episode-selector" id="episodeSelector">
+                <h3 id="episode-title">Selecionar Episódio</h3>
+                <select class="season-select" id="seasonSelect" aria-label="Selecionar temporada">
+                    <option value="">Selecione a Temporada</option>
+                </select>
+                <div class="episode-list" id="episodeList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stream Modal -->
+    <div class="stream-modal" id="streamModal" role="dialog" aria-modal="true" aria-labelledby="stream-title">
+        <div class="modal-backdrop" aria-hidden="true"></div>
+        <div class="stream-container">
+            <button id="closeStream" class="close-button" aria-label="Fechar player">
+                <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                    <path fill="currentColor" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                </svg>
+            </button>
+
+            <div class="stream-warning" id="streamWarning">
+                <div class="warning-content">
+                    <div class="warning-icon" aria-hidden="true">⚠️</div>
+                    <h3 id="stream-title">Importante - Leia antes de continuar</h3>
+
+                    <div class="warning-text">
+                        <p>Para a melhor experiência, recomendamos:</p>
+                        <ul>
+                            <li><strong>Use um bloqueador de anúncios</strong> para evitar redirecionamentos</li>
+                            <li><strong>Se for redirecionado:</strong> Volte usando Alt + ← (PC) ou botão Voltar (Mobile)</li>
+                            <li><strong>Não clique em pop-ups</strong> ou anúncios suspeitos</li>
+                            <li><strong>Mantenha seu antivírus ativo</strong></li>
+                        </ul>
+                        <p class="warning-note">Esta é uma fonte externa. Use por sua conta e risco.</p>
+                    </div>
+
+                    <div class="warning-buttons">
+                        <button class="proceed-button" onclick="proceedToWatch()" aria-describedby="stream-title">
+                            Entendi, Continuar
+                        </button>
+                        <button class="cancel-button" onclick="cancelStream()">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <iframe 
+                id="streamFrame" 
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-same-origin allow-scripts allow-top-navigation allow-top-navigation-by-user-activation" 
+                allowfullscreen 
+                style="display: none;"
+                referrerpolicy="no-referrer"
+                loading="lazy"
+                title="Player de vídeo"
+            ></iframe>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-spinner" aria-hidden="true"></div>
+            <p>Carregando informações da série...</p>
+        </div>
+    </div>
+
+    <script>
+
+
+        const API_CONFIG = {
+            key: 'cf72f14362cff1da8bed9fa86831de66',
+            baseUrl: 'https://api.themoviedb.org/3',
+            imageUrl: 'https://image.tmdb.org/t/p/original',
+            posterUrl: 'https://image.tmdb.org/t/p/w200',
+            profileUrl: 'https://image.tmdb.org/t/p/w200',
+            stillUrl: 'https://image.tmdb.org/t/p/w300',
+            streamUrl: 'https://embed.warezcdn.link/serie/'
+        };
+
+        let serieData = null;
+        let serieId = null;
+
+
+        async function loadSerieDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            serieId = urlParams.get('id');
+
+            if (!serieId) {
+                showError("ID da série não encontrado na URL");
+                return;
+            }
+
+            try {
+                setLoading(true);
+
+                const [serieResponse, creditsResponse, videosResponse] = await Promise.all([
+                    fetch(`${API_CONFIG.baseUrl}/tv/${serieId}?api_key=${API_CONFIG.key}&language=pt-BR`),
+                    fetch(`${API_CONFIG.baseUrl}/tv/${serieId}/credits?api_key=${API_CONFIG.key}&language=pt-BR`),
+                    fetch(`${API_CONFIG.baseUrl}/tv/${serieId}/videos?api_key=${API_CONFIG.key}&language=pt-BR`)
+                ]);
+
+                if (!serieResponse.ok) {
+                    throw new Error(`Erro ${serieResponse.status}: ${serieResponse.statusText}`);
+                }
+
+                const [serieDataResult, creditsData, videosData] = await Promise.all([
+                    serieResponse.json(),
+                    creditsResponse.json(),
+                    videosResponse.json()
+                ]);
+
+                serieData = serieDataResult;
+                renderSerieData(serieDataResult, creditsData, videosData);
+
+            } catch (error) {
+                console.error('Erro ao carregar série:', error);
+                showError("Erro ao carregar detalhes da série. Tente novamente.");
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function renderSerieData(serieData, creditsData, videosData) {
+            // Atualizar banner
+            const banner = document.getElementById("serieBanner");
+            const title = document.getElementById("serieTitle");
+            const year = document.getElementById("serieYear");
+            const rating = document.getElementById("serieRating");
+            const genre = document.getElementById("serieGenre");
+            const synopsis = document.getElementById("serieSynopsis");
+
+            if (banner && serieData.backdrop_path) {
+                banner.style.backgroundImage = `url(${API_CONFIG.imageUrl}${serieData.backdrop_path})`;
+            }
+
+            if (title) title.textContent = serieData.name || 'Título não disponível';
+            if (year && serieData.first_air_date) {
+                year.textContent = new Date(serieData.first_air_date).getFullYear();
+            }
+            if (rating) {
+                rating.textContent = `⭐ ${(serieData.vote_average || 0).toFixed(1)}/10`;
+            }
+            if (genre && serieData.genres) {
+                const genreNames = serieData.genres.map(g => g.name).slice(0, 3).join(', ');
+                genre.textContent = genreNames || 'Gêneros não informados';
+            }
+            if (synopsis) {
+                synopsis.textContent = serieData.overview || 'Sinopse não disponível.';
+            }
+
+            // Atualizar detalhes
+            const detailedSynopsis = document.getElementById("serieDetailedSynopsis");
+            const seasons = document.getElementById("serieSeasons");
+            const episodes = document.getElementById("serieEpisodes");
+            const status = document.getElementById("serieStatus");
+            const language = document.getElementById("serieLanguage");
+
+            if (detailedSynopsis) {
+                detailedSynopsis.textContent = serieData.overview || 'Descrição detalhada não disponível.';
+            }
+            if (seasons) seasons.textContent = serieData.number_of_seasons || 'N/A';
+            if (episodes) episodes.textContent = serieData.number_of_episodes || 'N/A';
+            if (status) status.textContent = getStatusText(serieData.status);
+            if (language) language.textContent = getLanguageName(serieData.original_language);
+
+            // Atualizar elenco
+            updateCast(creditsData);
+
+            // Atualizar trailer
+            updateTrailer(videosData);
+
+            // Atualizar temporadas
+            updateSeasons(serieData);
+
+            // Título da página
+            document.title = `${serieData.name} - s4tzvault`;
+        }
+
+        function updateCast(creditsData) {
+            const castGrid = document.getElementById("castGrid");
+            if (!castGrid || !creditsData.cast) return;
+
+            castGrid.innerHTML = '';
+            const mainCast = creditsData.cast.slice(0, 6);
+
+            mainCast.forEach(actor => {
+                const actorElement = document.createElement("div");
+                actorElement.className = "cast-member";
+
+                const profileImage = actor.profile_path 
+                    ? `${API_CONFIG.profileUrl}${actor.profile_path}`
+                    : getPlaceholderImage();
+
+                actorElement.innerHTML = `
+                    <img src="${profileImage}" alt="Foto de ${actor.name}" loading="lazy">
+                    <p>${actor.name}</p>
+                    <small>${actor.character || 'Personagem não informado'}</small>
+                `;
+
+                castGrid.appendChild(actorElement);
+            });
+        }
+
+        function updateTrailer(videosData) {
+            const videoPlayer = document.getElementById("videoPlayer");
+            if (!videoPlayer || !videosData.results) return;
+
+            const trailer = videosData.results.find(video => 
+                video.type === "Trailer" && video.site === "YouTube"
+            ) || videosData.results.find(video => 
+                video.site === "YouTube"
+            );
+
+            if (trailer) {
+                videoPlayer.src = `https://www.youtube.com/embed/${trailer.key}?rel=0&modestbranding=1`;
+            } else {
+                const videoSection = document.querySelector('.video-section');
+                if (videoSection) videoSection.style.display = 'none';
+            }
+        }
+
+        function updateSeasons(serieData) {
+            const seasonSelect = document.getElementById("seasonSelect");
+            if (!seasonSelect || !serieData.seasons) return;
+
+            seasonSelect.innerHTML = '<option value="">Selecione a Temporada</option>';
+            serieData.seasons.forEach(season => {
+                if (season.season_number > 0) {
+                    seasonSelect.innerHTML += `
+                        <option value="${season.season_number}">
+                            Temporada ${season.season_number}
+                        </option>
+                    `;
+                }
+            });
+        }
+
+        function getStatusText(status) {
+            const statusMap = {
+                'Returning Series': 'Em exibição',
+                'Ended': 'Finalizada',
+                'Canceled': 'Cancelada',
+                'In Production': 'Em produção'
+            };
+            return statusMap[status] || status || 'Status desconhecido';
+        }
+
+        function getLanguageName(code) {
+            const languages = {
+                'en': 'Inglês',
+                'pt': 'Português',
+                'ja': 'Japonês',
+                'ko': 'Coreano',
+                'zh': 'Chinês',
+                'es': 'Espanhol',
+                'fr': 'Francês'
+            };
+            return languages[code] || code?.toUpperCase() || 'N/A';
+        }
+
+        function getPlaceholderImage() {
+            return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTUwIiBoZWlnaHQ9IjE1MCIgdmlld0JveD0iMCAwIDE1MCAxNTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIiBmaWxsPSIjMkQyRDVGIi8+CjxjaXJjbGUgY3g9Ijc1IiBjeT0iNjAiIHI9IjIwIiBmaWxsPSIjOEI1Q0Y2Ii8+CjxwYXRoIGQ9Ik0zMCAxMjBDMzAgMTA0IDUxIDkyIDc1IDkyUzEyMCAxMDQgMTIwIDEyMFYxMzBIMzBWMTIwWiIgZmlsbD0iOEI1Q0Y2Ii8+Cjwvc3ZnPg==';
+        }
+
+        function setLoading(loading) {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            if (loadingOverlay) {
+                loadingOverlay.style.display = loading ? 'flex' : 'none';
+            }
+        }
+
+        function showError(message) {
+            const banner = document.getElementById("serieBanner");
+            if (banner) {
+                banner.innerHTML = `
+                    <div class="banner-overlay"></div>
+                    <div class="banner-content">
+                        <div class="movie-header">
+                            <h1 class="movie-title" style="color: var(--accent-color);">⚠️ Erro</h1>
+                            <p class="movie-synopsis">${message}</p>
+                            <div class="action-buttons">
+                                <button class="play-button" onclick="location.reload()">
+                                    <span>Tentar Novamente</span>
+                                </button>
+                                <a href="index.html" class="info-button">
+                                    <span>Voltar ao Início</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        function scrollToDetails() {
+            const detailsSection = document.getElementById('serieDetailsSection');
+            if (detailsSection) {
+                detailsSection.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSerieDetails();
+
+            // Play button
+            const playButton = document.querySelector('.play-button');
+            if (playButton) {
+                playButton.addEventListener('click', () => {
+                    const episodeModal = document.getElementById('episodeModal');
+                    if (episodeModal) episodeModal.classList.add('active');
+                });
+            }
+
+            // Modals
+            initializeModals();
+        });
+
+
+
+        function initializeModals() {
+            // Episode modal
+            const episodeModal = document.getElementById('episodeModal');
+            const closeEpisodes = document.getElementById('closeEpisodes');
+            const seasonSelect = document.getElementById('seasonSelect');
+            const episodeList = document.getElementById('episodeList');
+
+            if (closeEpisodes) {
+                closeEpisodes.addEventListener('click', () => {
+                    episodeModal?.classList.remove('active');
+                });
+            }
+
+            if (seasonSelect) {
+                seasonSelect.addEventListener('change', async (e) => {
+                    const seasonNumber = e.target.value;
+                    if (!seasonNumber) {
+                        episodeList.innerHTML = '';
+                        return;
+                    }
+
+                    episodeList.innerHTML = '<div style="padding: 2rem; text-align: center; color: var(--text-muted);">Carregando episódios...</div>';
+
+                    try {
+                        const response = await fetch(
+                            `${API_CONFIG.baseUrl}/tv/${serieId}/season/${seasonNumber}?api_key=${API_CONFIG.key}&language=pt-BR`
+                        );
+                        const seasonData = await response.json();
+
+                        episodeList.innerHTML = seasonData.episodes.map(episode => `
+                            <div class="episode-item" onclick="playEpisode(${seasonNumber}, ${episode.episode_number})" style="cursor: pointer;">
+                                <img src="${episode.still_path ? API_CONFIG.stillUrl + episode.still_path : getPlaceholderImage()}" 
+                                     alt="Episódio ${episode.episode_number}" loading="lazy">
+                                <div>
+                                    <div style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem;">Episódio ${episode.episode_number}</div>
+                                    <h4 style="color: var(--text-primary); margin-bottom: 0.5rem;">${episode.name}</h4>
+                                    <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.4;">${episode.overview || 'Nenhuma descrição disponível.'}</p>
+                                </div>
+                            </div>
+                        `).join('');
+
+                    } catch (error) {
+                        console.error('Erro ao carregar episódios:', error);
+                        episodeList.innerHTML = '<div style="padding: 2rem; text-align: center; color: #ef4444;">Erro ao carregar episódios</div>';
+                    }
+                });
+            }
+
+            // Stream modal
+            const streamModal = document.getElementById('streamModal');
+            const closeStream = document.getElementById('closeStream');
+            const modalBackdrop = document.querySelector('.modal-backdrop');
+
+            if (closeStream) {
+                closeStream.addEventListener('click', () => cancelStream());
+            }
+
+            if (modalBackdrop) {
+                modalBackdrop.addEventListener('click', () => {
+                    if (episodeModal?.classList.contains('active')) {
+                        episodeModal.classList.remove('active');
+                    }
+                    if (streamModal?.classList.contains('active')) {
+                        cancelStream();
+                    }
+                });
+            }
+
+            // Keyboard events
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    if (streamModal?.classList.contains('active')) {
+                        cancelStream();
+                    } else if (episodeModal?.classList.contains('active')) {
+                        episodeModal.classList.remove('active');
+                    }
+                }
+            });
+        }
+
+        function playEpisode(seasonNumber, episodeNumber) {
+            const episodeModal = document.getElementById('episodeModal');
+            const streamModal = document.getElementById('streamModal');
+            const streamWarning = document.getElementById('streamWarning');
+            const streamFrame = document.getElementById('streamFrame');
+
+            if (episodeModal) episodeModal.classList.remove('active');
+            if (streamModal) streamModal.classList.add('active');
+
+            if (streamWarning) streamWarning.style.display = 'flex';
+            if (streamFrame) {
+                streamFrame.style.display = 'none';
+                streamFrame.src = '';
+            }
+
+            window.proceedToWatch = () => {
+                if (streamWarning) streamWarning.style.display = 'none';
+                if (streamFrame) {
+                    streamFrame.style.display = 'block';
+                    streamFrame.src = `${API_CONFIG.streamUrl}${serieId}/${seasonNumber}/${episodeNumber}`;
+                }
+            };
+
+            window.cancelStream = () => {
+                if (streamModal) streamModal.classList.remove('active');
+                if (streamFrame) streamFrame.src = '';
+            };
+        }
+
+
+    </script>
+
+
+</body>
+</html>

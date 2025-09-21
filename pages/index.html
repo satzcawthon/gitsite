@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Satz - Ferramenta de Busca</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --border-color: #ffffff;
+            --hover-color: rgba(255, 255, 255, 0.1);
+            --focus-color: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: var(--bg-color);
+            padding: 1rem 2rem;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .header-icon {
+            width: 24px;
+            height: 24px;
+            color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .header-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 600px;
+            gap: 2rem;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background-color: transparent;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-color);
+            font-size: 1.125rem;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-box:hover {
+            border-color: var(--text-color);
+            box-shadow: 0 0 0 4px var(--hover-color);
+        }
+
+        .search-box:focus {
+            border-color: var(--text-color);
+            box-shadow: 0 0 0 4px var(--focus-color);
+            transform: translateY(-2px);
+        }
+
+        /* Selection styles */
+        .search-box::selection {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+        }
+
+        .search-box::-moz-selection {
+            background-color: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+        }
+
+        /* Better text selection for all elements */
+        ::selection {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        ::-moz-selection {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        /* Footer */
+        .footer-message {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .footer-message a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-message a:hover {
+            color: var(--text-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .search-box {
+                font-size: 1rem;
+                padding: 0.875rem 1.25rem;
+            }
+
+            .footer-message {
+                font-size: 0.6875rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-content">
+            <svg class="header-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="currentColor"/>
+            </svg>
+            <a href="../" class="header-text">Satz</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="search-container">
+            <input 
+                type="text" 
+                class="search-box" 
+                placeholder="Procure um Filme, Serie ou Anime"
+                id="searchInput"
+                autocomplete="off"
+            >
+            <div class="footer-message">
+                Juntesse a STZ GANG e seja um ST, Chame o Satz no dc para participar: <a href="50vu" target="_blank" rel="noopener noreferrer">50vu</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    const query = e.target.value.trim();
+                    if (query.length >= 2) {
+                        window.location.href = `./busca.html?q=${encodeURIComponent(query)}`;
+                    }
+                }
+            });
+
+            // Add subtle animation on page load
+            searchInput.style.opacity = '0';
+            searchInput.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                searchInput.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                searchInput.style.opacity = '1';
+                searchInput.style.transform = 'translateY(0)';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
